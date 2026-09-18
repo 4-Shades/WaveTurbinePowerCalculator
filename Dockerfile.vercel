@@ -1,0 +1,37 @@
+# ==========================================
+# STAGE 1: Base Runtime (Slim and Fast)
+# ==========================================
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+WORKDIR /app
+EXPOSE 8080
+# Explicitly configure ASP.NET Core to listen on port 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+# ==========================================
+# STAGE 2: Build and Compile Environment
+# ==========================================
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Step 1: Copy ONLY the project file first to lock the cache layer [INDEX]
+COPY ["WtPowerCalculator.csproj", "./"]
+
+# Step 2: Restore packages using BuildKit's global caching mount [INDEX]
+RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
+    dotnet restore "WtPowerCalculator.csproj"
+
+# Step 3: Copy the remaining C# source files and Razor views [INDEX]
+# (Make sure a .dockerignore is present to block local bin/ and obj/ folders)
+COPY . .
+
+# Step 4: Publish your binaries using the same cached package mount [INDEX]
+RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
+    dotnet publish "WtPowerCalculator.csproj" -c Release -o /app/out /p:UseAppHost=false --no-restore
+
+# ==========================================
+# STAGE 3: Final Lean Production Image
+# ==========================================
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/out .
+ENTRYPOINT ["dotnet", "WtPowerCalculator.dll"]

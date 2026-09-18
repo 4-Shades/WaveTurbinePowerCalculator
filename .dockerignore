@@ -1,0 +1,34 @@
+# Exclude build and compilation outputs
+**/bin/
+**/obj/
+
+# Exclude local publishing artifacts
+**/publish/
+**/out/
+
+# Exclude source control metadata
+.git/
+.gitignore
+.github/
+.vs/
+.vscode/
+
+# Exclude secret settings and developer overrides
+**/appsettings.Development.json
+**/*.user
+**/*.suo
+
+# Exclude local environment files
+.env
+
+# Exclude operating system clutter
+.DS_Store
+Thumbs.db
+
+# Exclude Node.js and frontend package folders
+package-lock.json
+yarn.lock
+
+# Exclude compiled static web assets generated locally
+**/wwwroot/dist/
+**/wwwroot/css/site.css.map

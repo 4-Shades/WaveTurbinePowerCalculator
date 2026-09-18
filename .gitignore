@@ -1,0 +1,56 @@
+# Build outputs
+bin/
+obj/
+out/
+[Bb]uild/
+[Bb]uildResults/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Dotnet tooling
+project.lock.json
+project.nuget.cache
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+# User secrets / local config
+appsettings.Development.json
+secrets.json
+*.pfx
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.cache
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Publish output
+publish/
+*.Publish.xml
+
+# JetBrains / Rider
+.idea/
+*.iml
+
+# Test results
+TestResults/
+coverage*/
+
+# Environment files
+.env
+.env.*
